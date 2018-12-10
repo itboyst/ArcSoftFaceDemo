@@ -133,10 +133,10 @@ public class FaceController {
             if (CollectionUtil.isNotEmpty(processInfoList)) {
                 //人脸检测
                 List<FaceInfo> faceInfoList = faceEngineService.detectFaces(imageInfo);
-                int left = faceInfoList.get(0).getRect().left;
-                int top = faceInfoList.get(0).getRect().top;
-                int width = faceInfoList.get(0).getRect().right - left;
-                int height = faceInfoList.get(0).getRect().bottom - top;
+                int left = faceInfoList.get(0).getRect().getLeft();
+                int top = faceInfoList.get(0).getRect().getTop();
+                int width = faceInfoList.get(0).getRect().getRight() - left;
+                int height = faceInfoList.get(0).getRect().getBottom()- top;
 
                 Graphics2D graphics2D = bufImage.createGraphics();
                 graphics2D.setColor(Color.RED);//红色

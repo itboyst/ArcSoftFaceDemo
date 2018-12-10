@@ -13,8 +13,12 @@
 
 * 使用idea启动项目
     * 修改配置文件src\main\resources\application.properties
-        * 填写数据库datasource的url、username和password
-        * 填写freesdk的app-id和sdk-key。
+        * 填写数据库地址：spring.datasource.druid.url
+        * 填写数据库用户名：spring.datasource.druid.username
+        * 填写数据库密码：spring.datasource.druid.password
+        * 填写人脸识别id：config.freesdk.app-id
+        * 填写人脸识别key：config.freesdk.sdk-key
+
  
 * 启动项目
     * 在com.arcsoft.facedemo包下，右击Application，选择Run ‘Application’
