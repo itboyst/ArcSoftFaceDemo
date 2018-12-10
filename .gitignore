@@ -1,0 +1,5 @@
+/.idea
+*.iml
+/ai-welcome-cloud/target/
+/ai-welcome-common/target/classes/com/arcsoft/common/base/*.class
+/ai-welcome-common/target/classes/com/arcsoft/common/dto/*.class
