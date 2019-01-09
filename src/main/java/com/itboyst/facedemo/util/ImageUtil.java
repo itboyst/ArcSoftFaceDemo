@@ -69,7 +69,7 @@ public class ImageUtil {
         //将像素矩阵 绘制到新的图片缓冲区中
         resultImage.setRGB(0, 0, width, height, rgb, 0, width);
         //进行数据格式化为可用数据
-        BufferedImage dstImage = new BufferedImage(image.getWidth(), image.getHeight(), BufferedImage.TYPE_3BYTE_BGR);
+        BufferedImage dstImage = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
         if(resultImage.getType() != BufferedImage.TYPE_3BYTE_BGR) {
             ColorSpace cs = ColorSpace.getInstance(ColorSpace.CS_LINEAR_RGB);
             ColorConvertOp colorConvertOp = new ColorConvertOp(cs, dstImage.createGraphics().getRenderingHints());
