@@ -1,6 +1,6 @@
 package com.itboyst.facedemo.service;
 
-import com.itboyst.facedemo.base.ImageInfo;
+import com.arcsoft.face.toolkit.ImageInfo;
 import com.itboyst.facedemo.dto.FaceUserInfo;
 import com.itboyst.facedemo.dto.ProcessInfo;
 import com.arcsoft.face.FaceInfo;
@@ -10,9 +10,6 @@ import java.util.concurrent.ExecutionException;
 
 
 public interface FaceEngineService {
-
-    void addFaceToCache(Integer groupId, FaceUserInfo userFaceInfo) throws ExecutionException;
-
 
     List<FaceInfo> detectFaces(ImageInfo imageInfo);
 

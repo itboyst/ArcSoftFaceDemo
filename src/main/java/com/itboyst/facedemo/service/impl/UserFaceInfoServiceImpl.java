@@ -1,6 +1,6 @@
 package com.itboyst.facedemo.service.impl;
 
-import com.itboyst.facedemo.dao.mapper.UserFaceInfoMapper;
+import com.itboyst.facedemo.mapper.MybatisUserFaceInfoMapper;
 import com.itboyst.facedemo.domain.UserFaceInfo;
 import com.itboyst.facedemo.service.UserFaceInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +12,10 @@ public class UserFaceInfoServiceImpl implements UserFaceInfoService {
 
 
     @Autowired
-    private UserFaceInfoMapper userFaceInfoMapper;
+    private MybatisUserFaceInfoMapper userFaceInfoMapper;
 
     @Override
-    public int insertSelective(UserFaceInfo userFaceInfo) {
-        return userFaceInfoMapper.insertSelective(userFaceInfo);
+    public void insertSelective(UserFaceInfo userFaceInfo) {
+        userFaceInfoMapper.insertUserFaceInfo(userFaceInfo);
     }
 }

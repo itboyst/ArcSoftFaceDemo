@@ -2,50 +2,42 @@ package com.itboyst.facedemo.factory;
 
 import com.arcsoft.face.EngineConfiguration;
 import com.arcsoft.face.FaceEngine;
-import com.arcsoft.face.FunctionConfiguration;
 import com.arcsoft.face.enums.DetectMode;
 import com.arcsoft.face.enums.DetectOrient;
 import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
 
-/**
- * @Author: st7251
- * @Date: 2018/10/16 13:47
- */
 public class FaceEngineFactory extends BasePooledObjectFactory<FaceEngine> {
 
     private String appId;
     private String sdkKey;
-    private FunctionConfiguration functionConfiguration;
-    private Integer detectFaceMaxNum=10;
-    private Integer detectFaceScaleVal=16;
-    private DetectMode detectMode= DetectMode.ASF_DETECT_MODE_IMAGE;
-    private DetectOrient detectFaceOrientPriority= DetectOrient.ASF_OP_0_HIGHER_EXT;
+    private String sdkLibPath;
+    private EngineConfiguration engineConfiguration;
+    private Integer detectFaceMaxNum = 10;
+    private Integer detectFaceScaleVal = 16;
+    private DetectMode detectMode = DetectMode.ASF_DETECT_MODE_IMAGE;
+    private DetectOrient detectFaceOrientPriority = DetectOrient.ASF_OP_0_ONLY;
 
 
-    public FaceEngineFactory(String appId, String sdkKey, FunctionConfiguration functionConfiguration) {
+    public FaceEngineFactory(String sdkLibPath, String appId, String sdkKey, EngineConfiguration engineConfiguration) {
+        this.sdkLibPath = sdkLibPath;
         this.appId = appId;
         this.sdkKey = sdkKey;
-        this.functionConfiguration = functionConfiguration;
-    }
+        this.engineConfiguration = engineConfiguration;
 
+    }
 
 
     @Override
     public FaceEngine create() throws Exception {
 
-        EngineConfiguration engineConfiguration= EngineConfiguration.builder()
-                .functionConfiguration(functionConfiguration)
-                .detectFaceMaxNum(detectFaceMaxNum)
-                .detectFaceScaleVal(detectFaceScaleVal)
-                .detectMode(detectMode)
-                .detectFaceOrientPriority(detectFaceOrientPriority)
-                .build();
-        FaceEngine faceEngine =new FaceEngine();
-        faceEngine.active(appId,sdkKey);
-        faceEngine.init(engineConfiguration);
-
+        FaceEngine faceEngine = new FaceEngine(sdkLibPath);
+        //-=======================
+        int activeCode = faceEngine.activeOnline(appId, sdkKey);
+        System.out.println("faceEngineActiveCode:" + activeCode + "==========================");
+        int initCode = faceEngine.init(engineConfiguration);
+        System.out.println("faceEngineInitCode:" + initCode + "==========================");
         return faceEngine;
     }
 
@@ -58,7 +50,8 @@ public class FaceEngineFactory extends BasePooledObjectFactory<FaceEngine> {
     @Override
     public void destroyObject(PooledObject<FaceEngine> p) throws Exception {
         FaceEngine faceEngine = p.getObject();
-        int result = faceEngine.unInit();
+        int unInitCode = faceEngine.unInit();
+        System.out.println("faceEngineUnInitCode:" + unInitCode + "==========================");
         super.destroyObject(p);
     }
 }

@@ -5,6 +5,6 @@ import com.itboyst.facedemo.domain.UserFaceInfo;
 
 public interface UserFaceInfoService {
 
-    int insertSelective(UserFaceInfo userFaceInfo);
+    void insertSelective(UserFaceInfo userFaceInfo);
 
 }

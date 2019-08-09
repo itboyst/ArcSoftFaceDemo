@@ -1,9 +1,6 @@
 package com.itboyst.facedemo.dto;
 
-/**
- * @Author: st7251
- * @Date: 2018/12/3 9:55
- */
+
 public class ProcessInfo {
     private Integer age;
     private Integer gender;

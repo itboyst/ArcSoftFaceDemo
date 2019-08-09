@@ -1,9 +1,6 @@
 package com.itboyst.facedemo.dto;
 
-/**
- * @Author: st7251
- * @Date: 2018/12/3 10:11
- */
+
 public class FaceSearchResDto {
     private String faceId;
     private String name;
