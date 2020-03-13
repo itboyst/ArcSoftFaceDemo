@@ -28,12 +28,10 @@
 
     <dependencies>
 
-        <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.16.20</version>
-            <scope>provided</scope>
+            <version>1.18.8</version>
         </dependency>
 
         <dependency>
@@ -43,35 +41,20 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-devtools</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-freemarker</artifactId>
         </dependency>
-
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>8.0.17</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>2.1.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-            <version>1.1.18</version>
-        </dependency>
-
 
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
             <version>4.6.1</version>
         </dependency>
-
-
 
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -96,8 +79,9 @@
             <artifactId>arcsoft-sdk-face</artifactId>
             <version>2.2.0.1</version>
             <scope>system</scope>
-            <systemPath>${basedir}/lib/arcsoft-sdk-face-2.2.0.1.jar</systemPath>
+            <systemPath>${basedir}/lib/arcsoft-sdk-face-3.0.0.0.jar</systemPath>
         </dependency>
+
 
     </dependencies>
 

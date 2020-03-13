@@ -2,42 +2,48 @@ package com.itboyst.facedemo.factory;
 
 import com.arcsoft.face.EngineConfiguration;
 import com.arcsoft.face.FaceEngine;
-import com.arcsoft.face.enums.DetectMode;
-import com.arcsoft.face.enums.DetectOrient;
+import com.arcsoft.face.enums.ErrorInfo;
+import com.itboyst.facedemo.enums.ErrorCodeEnum;
+import com.itboyst.facedemo.rpc.BusinessException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
 
+@Slf4j
 public class FaceEngineFactory extends BasePooledObjectFactory<FaceEngine> {
 
+    private String libPath;
     private String appId;
     private String sdkKey;
-    private String sdkLibPath;
+    private String activeKey;
     private EngineConfiguration engineConfiguration;
-    private Integer detectFaceMaxNum = 10;
-    private Integer detectFaceScaleVal = 16;
-    private DetectMode detectMode = DetectMode.ASF_DETECT_MODE_IMAGE;
-    private DetectOrient detectFaceOrientPriority = DetectOrient.ASF_OP_0_ONLY;
 
 
-    public FaceEngineFactory(String sdkLibPath, String appId, String sdkKey, EngineConfiguration engineConfiguration) {
-        this.sdkLibPath = sdkLibPath;
+    public FaceEngineFactory(String libPath, String appId, String sdkKey, String activeKey, EngineConfiguration engineConfiguration) {
         this.appId = appId;
         this.sdkKey = sdkKey;
+        this.activeKey = activeKey;
+        this.libPath = libPath;
         this.engineConfiguration = engineConfiguration;
-
     }
 
 
     @Override
-    public FaceEngine create() throws Exception {
+    public FaceEngine create() {
 
-        FaceEngine faceEngine = new FaceEngine(sdkLibPath);
-        //-=======================
+
+        FaceEngine faceEngine = new FaceEngine(libPath);
         int activeCode = faceEngine.activeOnline(appId, sdkKey);
-        System.out.println("faceEngineActiveCode:" + activeCode + "==========================");
+        if (activeCode != ErrorInfo.MOK.getValue() && activeCode != ErrorInfo.MERR_ASF_ALREADY_ACTIVATED.getValue()) {
+            log.error("引擎激活失败" + activeCode);
+            throw new BusinessException(ErrorCodeEnum.FAIL, "引擎激活失败" + activeCode);
+        }
         int initCode = faceEngine.init(engineConfiguration);
-        System.out.println("faceEngineInitCode:" + initCode + "==========================");
+        if (initCode != ErrorInfo.MOK.getValue()) {
+            log.error("引擎初始化失败" + initCode);
+            throw new BusinessException(ErrorCodeEnum.FAIL, "引擎初始化失败" + initCode);
+        }
         return faceEngine;
     }
 
@@ -50,8 +56,7 @@ public class FaceEngineFactory extends BasePooledObjectFactory<FaceEngine> {
     @Override
     public void destroyObject(PooledObject<FaceEngine> p) throws Exception {
         FaceEngine faceEngine = p.getObject();
-        int unInitCode = faceEngine.unInit();
-        System.out.println("faceEngineUnInitCode:" + unInitCode + "==========================");
+        int result = faceEngine.unInit();
         super.destroyObject(p);
     }
 }

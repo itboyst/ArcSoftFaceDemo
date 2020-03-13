@@ -1,17 +1,19 @@
 package com.itboyst.facedemo;
 
-import org.mybatis.spring.annotation.MapperScan;
+
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @SpringBootApplication
-@MapperScan({"com.itboyst.facedemo.dao.mapper","com.itboyst.facedemo.mapper"})
-@EnableTransactionManagement
+@Slf4j
 public class Application {
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
+        log.info("springboot run success ");
+
     }
 }
 

@@ -1,3 +1,4 @@
 /.idea
 *.iml
-/ai-welcome-cloud/target/
+ArcFace64.dat
+target/
