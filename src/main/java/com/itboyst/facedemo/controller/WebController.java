@@ -25,6 +25,7 @@ public class WebController {
     public String compare(Model model) {
         return "face_similarity";
     }
+
     @RequestMapping(value = "/faceRecognition")
     public String recognition(Model model) {
         return "face_recognition";

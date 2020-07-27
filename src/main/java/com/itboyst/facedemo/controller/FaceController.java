@@ -17,10 +17,10 @@ import com.itboyst.facedemo.util.UserRamCache;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.*;
-
 import javax.annotation.PostConstruct;
 import java.io.*;
 import java.util.List;
@@ -46,8 +46,13 @@ public class FaceController {
         fileMap.put("yang1", "杨紫");
 
         for (String f : fileMap.keySet()) {
-            File file = ResourceUtils.getFile("classpath:static/images/" + f + ".jpg");
-            ImageInfo rgbData = ImageFactory.getRGBData(file);
+            ClassPathResource resource = new ClassPathResource("static/images/" + f +  ".jpg");
+            InputStream inputStream = null;
+            try {
+                inputStream = resource.getInputStream();
+            } catch (IOException e) {
+            }
+            ImageInfo rgbData = ImageFactory.getRGBData(inputStream);
             List<FaceInfo> faceInfoList = faceEngineService.detectFaces(rgbData);
             if (CollectionUtil.isNotEmpty(faceInfoList)) {
                 byte[] feature = faceEngineService.extractFaceFeature(rgbData, faceInfoList.get(0));
