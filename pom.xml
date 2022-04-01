@@ -24,6 +24,9 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <java.version>1.8</java.version>
+        <javacv.version>1.5.7</javacv.version>
+        <javacv.platform>windows-x86_64</javacv.platform>
+<!--        <javacv.platform>linux-x86_64</javacv.platform>-->
     </properties>
 
     <dependencies>
@@ -88,18 +91,31 @@
             <systemPath>${basedir}/libs/arcsoft-sdk-face-3.0.0.0.jar</systemPath>
         </dependency>
 
-<!--                <dependency>-->
-<!--                    <groupId>com.arcsoft.face</groupId>-->
-<!--                    <artifactId>arcsoft-sdk-face</artifactId>-->
-<!--                    <version>4.1.1.0</version>-->
-<!--                    <scope>system</scope>-->
-<!--                    <systemPath>${basedir}/libs/arcsoft-sdk-face-4.1.1.0.jar</systemPath>-->
-<!--                </dependency>-->
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>javacv</artifactId>
+            <version>${javacv.version}</version>
+        </dependency>
 
         <dependency>
             <groupId>org.bytedeco</groupId>
-            <artifactId>javacv-platform</artifactId>
-            <version>1.5.7</version>
+            <artifactId>openblas</artifactId>
+            <version>0.3.19-${javacv.version}</version>
+            <classifier>${javacv.platform}</classifier>
+        </dependency>
+
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>opencv</artifactId>
+            <version>4.5.5-${javacv.version}</version>
+            <classifier>${javacv.platform}</classifier>
+        </dependency>
+
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>ffmpeg</artifactId>
+            <version>5.0-${javacv.version}</version>
+            <classifier>${javacv.platform}</classifier>
         </dependency>
 
 
