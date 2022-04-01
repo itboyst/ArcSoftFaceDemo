@@ -71,7 +71,7 @@ public class VideoPlayerService {
         recorder.setAudioCodec(avcodec.AV_CODEC_ID_AAC);
         recorder.setTrellis(1);
         recorder.setMaxDelay(0);// 设置延迟
-        recorder.setAudioChannels(1);
+        recorder.setAudioChannels(grabber.getAudioChannels());
         recorder.start();
 
         long startTime = 0;

@@ -46,6 +46,7 @@ public class StreamController {
         } else {
             grabber = new FFmpegFrameGrabber(address);
         }
+//        FrameGrabber grabber=new FFmpegFrameGrabber("E:\\FFOutput\\06.mp4");
 
         videoPlayerService.servletStreamPlayer(grabber, response.getOutputStream());
 
