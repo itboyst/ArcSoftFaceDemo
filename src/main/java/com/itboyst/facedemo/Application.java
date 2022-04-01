@@ -6,7 +6,6 @@ import org.bytedeco.javacpp.Loader;
 import org.bytedeco.opencv.global.opencv_imgproc;
 import org.bytedeco.opencv.opencv_core.CvPoint;
 import org.bytedeco.opencv.opencv_imgproc.CvFont;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
