@@ -20,7 +20,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
@@ -133,8 +132,11 @@ public class FaceEngineServiceImpl implements FaceEngineService {
         List<FaceInfo> faceInfoList1 = detectFaces(imageInfo1);
         List<FaceInfo> faceInfoList2 = detectFaces(imageInfo2);
 
-        if (CollectionUtil.isEmpty(faceInfoList1) || CollectionUtil.isEmpty(faceInfoList2)) {
-            throw new BusinessException(ErrorCodeEnum.FAIL,"未检测到人脸");
+        if (CollectionUtil.isEmpty(faceInfoList1)) {
+            throw new BusinessException(ErrorCodeEnum.FAIL, "照片1未检测到人脸");
+        }
+        if (CollectionUtil.isEmpty(faceInfoList2)) {
+            throw new BusinessException(ErrorCodeEnum.FAIL, "照片2未检测到人脸");
         }
 
         byte[] feature1 = extractFaceFeature(imageInfo1, faceInfoList1.get(0));

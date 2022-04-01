@@ -2,10 +2,9 @@ package com.itboyst.facedemo.util;
 
 import com.google.common.collect.Lists;
 import lombok.Data;
-
-import java.util.List;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.CopyOnWriteArraySet;
 
 /**
  * @author st7251
@@ -13,24 +12,37 @@ import java.util.concurrent.ConcurrentMap;
  */
 public class UserRamCache {
 
-    private static  ConcurrentHashMap<String, UserInfo> userInfoMap = new ConcurrentHashMap<>();
+    private static final ConcurrentHashMap<String, UserInfo> USER_INFO_MAP = new ConcurrentHashMap<>();
+
+    private static final Set<Listener> REGISTER = new CopyOnWriteArraySet<>();
 
     public static void addUser(UserInfo userInfo) {
-        userInfoMap.put(userInfo.getFaceId(), userInfo);
+        USER_INFO_MAP.put(userInfo.getFaceId(), userInfo);
+        for (Listener listener : REGISTER) {
+            listener.onAdd(userInfo);
+        }
     }
 
     public static void removeUser(String faceId) {
-        userInfoMap.remove(faceId);
+        UserInfo userInfo = USER_INFO_MAP.remove(faceId);
+        for (Listener listener : REGISTER) {
+            listener.onRemove(userInfo);
+        }
     }
 
     public static List<UserInfo> getUserList() {
         List<UserInfo> userInfoList = Lists.newLinkedList();
-        for (UserInfo value : userInfoMap.values()) {
-            userInfoList.add(value);
-        }
+        userInfoList.addAll(USER_INFO_MAP.values());
         return userInfoList;
     }
 
+    public static void addListener(Listener listener) {
+        REGISTER.add(listener);
+    }
+
+    public static void removeListener(Listener listener) {
+        REGISTER.remove(listener);
+    }
 
     @Data
     public static class UserInfo {
@@ -39,5 +51,14 @@ public class UserRamCache {
         private String name;
         private byte[] faceFeature;
 
+    }
+
+    public interface Listener {
+        default void onAdd(UserInfo userInfo) {
+        }
+
+        default void onRemove(UserInfo userInfo) {
+
+        }
     }
 }

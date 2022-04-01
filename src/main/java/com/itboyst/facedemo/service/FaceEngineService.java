@@ -6,7 +6,6 @@ import com.arcsoft.face.toolkit.ImageInfo;
 import com.itboyst.facedemo.entity.UserCompareInfo;
 import com.itboyst.facedemo.entity.ProcessInfo;
 import com.itboyst.facedemo.util.UserRamCache;
-
 import java.util.List;
 
 
