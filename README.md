@@ -33,5 +33,10 @@
 * 前端代码：
     * https://github.com/itboyst/ArcSoftFaceDemoUI
 
+
+* 项目截图：
+    * <img src="images/img.png" width = "1068" height = "100%"/>
+
+
 * 微信打赏：
     * <img src="images/wx.jpg" width = "500" height = "100%"/>
