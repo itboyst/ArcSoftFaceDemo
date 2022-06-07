@@ -5,6 +5,7 @@ import com.arcsoft.face.enums.DetectMode;
 import com.arcsoft.face.enums.ErrorInfo;
 import com.arcsoft.face.toolkit.ImageFactory;
 import com.arcsoft.face.toolkit.ImageInfo;
+import com.itboyst.face.config.ArcFaceAutoConfiguration;
 import com.itboyst.face.factory.FaceEngineFactory;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -50,10 +51,10 @@ public class FaceRecognize {
     /**
      * 初始化引擎
      */
-    public void initEngine(String libPath, String appId, String sdkKey) {
+    public void initEngine( String appId, String sdkKey) {
 
         //引擎配置
-        ftEngine = new FaceEngine(libPath);
+        ftEngine = new FaceEngine(ArcFaceAutoConfiguration.CACHE_LIB_FOLDER);
         int activeCode = ftEngine.activeOnline(appId, sdkKey);
         EngineConfiguration ftEngineCfg = new EngineConfiguration();
         ftEngineCfg.setDetectMode(DetectMode.ASF_DETECT_MODE_VIDEO);
@@ -61,7 +62,7 @@ public class FaceRecognize {
         int ftInitCode = ftEngine.init(ftEngineCfg);
 
         //引擎配置
-        regEngine = new FaceEngine(libPath);
+        regEngine = new FaceEngine(ArcFaceAutoConfiguration.CACHE_LIB_FOLDER);
 
         EngineConfiguration regEngineCfg = new EngineConfiguration();
         regEngineCfg.setDetectMode(DetectMode.ASF_DETECT_MODE_IMAGE);
@@ -76,7 +77,7 @@ public class FaceRecognize {
         poolConfig.setLifo(false);
         EngineConfiguration frEngineCfg = new EngineConfiguration();
         frEngineCfg.setFunctionConfiguration(FunctionConfiguration.builder().supportFaceRecognition(true).build());
-        frEnginePool = new GenericObjectPool(new FaceEngineFactory(libPath, appId, sdkKey, null, frEngineCfg), poolConfig);//底层库算法对象池
+        frEnginePool = new GenericObjectPool(new FaceEngineFactory( appId, sdkKey, null, frEngineCfg), poolConfig);//底层库算法对象池
 
 
         if (!(activeCode == ErrorInfo.MOK.getValue() || activeCode == ErrorInfo.MERR_ASF_ALREADY_ACTIVATED.getValue())) {

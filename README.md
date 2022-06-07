@@ -14,9 +14,9 @@
 * 初始化项目
 * 使用idea启动项目
     * 修改配置文件src\main\resources\application.properties
-        * 人脸识别引擎库存放路径：config.arcface-sdk.sdk-lib-path
         * 填写人脸识别id：config.arcface-sdk.app-id
         * 填写人脸识别key：config.arcface-sdk.sdk-key
+    * 替换src\main\resources\libs\3.0下面的库文件
 
 
 * 启动项目

@@ -18,8 +18,6 @@ import java.io.ByteArrayOutputStream;
 @Service
 public class VideoPlayerService {
 
-    @Value("${config.arcface-sdk.sdk-lib-path}")
-    public String sdkLibPath;
     @Value("${config.arcface-sdk.app-id}")
     public String appId;
 
@@ -29,7 +27,7 @@ public class VideoPlayerService {
     public void servletStreamPlayer(FrameGrabber grabber, ServletOutputStream servletOutputStream) throws Exception {
 
         //启动人脸处理引擎
-        FacePreview faceProcessEngine = new FacePreview(sdkLibPath, appId, sdkKey);
+        FacePreview faceProcessEngine = new FacePreview(appId, sdkKey);
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         OpenCVFrameConverter.ToIplImage converter = new OpenCVFrameConverter.ToIplImage();

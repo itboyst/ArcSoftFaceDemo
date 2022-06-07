@@ -20,6 +20,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +33,6 @@ public class FaceEngineServiceImpl implements FaceEngineService {
 
     public final static Logger logger = LoggerFactory.getLogger(FaceEngineServiceImpl.class);
 
-    @Value("${config.arcface-sdk.sdk-lib-path}")
-    public String sdkLibPath;
     @Value("${config.arcface-sdk.app-id}")
     public String appId;
 
@@ -73,7 +72,7 @@ public class FaceEngineServiceImpl implements FaceEngineService {
         detectCfg.setFunctionConfiguration(detectFunctionCfg);
         detectCfg.setDetectMode(DetectMode.ASF_DETECT_MODE_IMAGE);//图片检测模式，如果是连续帧的视频流图片，那么改成VIDEO模式
         detectCfg.setDetectFaceOrientPriority(DetectOrient.ASF_OP_0_ONLY);//人脸旋转角度
-        faceEngineGeneralPool = new GenericObjectPool(new FaceEngineFactory(sdkLibPath, appId, sdkKey, null, detectCfg), detectPoolConfig);//底层库算法对象池
+        faceEngineGeneralPool = new GenericObjectPool(new FaceEngineFactory(appId, sdkKey, null,detectCfg), detectPoolConfig);//底层库算法对象池
 
 
         //初始化特征比较线程池
@@ -88,7 +87,7 @@ public class FaceEngineServiceImpl implements FaceEngineService {
         compareCfg.setFunctionConfiguration(compareFunctionCfg);
         compareCfg.setDetectMode(DetectMode.ASF_DETECT_MODE_IMAGE);//图片检测模式，如果是连续帧的视频流图片，那么改成VIDEO模式
         compareCfg.setDetectFaceOrientPriority(DetectOrient.ASF_OP_0_ONLY);//人脸旋转角度
-        faceEngineComparePool = new GenericObjectPool(new FaceEngineFactory(sdkLibPath, appId, sdkKey, null, compareCfg), comparePoolConfig);//底层库算法对象池
+        faceEngineComparePool = new GenericObjectPool(new FaceEngineFactory(appId, sdkKey, null,compareCfg), comparePoolConfig);//底层库算法对象池
         compareExecutorService = Executors.newFixedThreadPool(comparePooSize);
     }
 

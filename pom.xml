@@ -91,6 +91,7 @@
             <systemPath>${basedir}/libs/arcsoft-sdk-face-3.0.0.0.jar</systemPath>
         </dependency>
 
+
 <!--        <dependency>-->
 <!--            <groupId>org.bytedeco</groupId>-->
 <!--            <artifactId>javacv-platform</artifactId>-->

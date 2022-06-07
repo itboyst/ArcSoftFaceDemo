@@ -31,9 +31,9 @@ public class FacePreview {
 
     private FaceRecognize faceRecognize;
 
-    public FacePreview(String libPath, String appId, String sdkKey) {
+    public FacePreview( String appId, String sdkKey) {
         this.faceRecognize = new FaceRecognize();
-        faceRecognize.initEngine(libPath, appId, sdkKey);
+        faceRecognize.initEngine(appId, sdkKey);
         List<UserRamCache.UserInfo> userList = UserRamCache.getUserList();
         Map<String, byte[]> face = userList.stream().collect(Collectors.toMap(UserRamCache.UserInfo::getName, UserRamCache.UserInfo::getFaceFeature));
         faceRecognize.registerFace(face);

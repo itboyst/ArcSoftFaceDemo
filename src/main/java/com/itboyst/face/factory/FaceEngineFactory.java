@@ -3,6 +3,7 @@ package com.itboyst.face.factory;
 import com.arcsoft.face.EngineConfiguration;
 import com.arcsoft.face.FaceEngine;
 import com.arcsoft.face.enums.ErrorInfo;
+import com.itboyst.face.config.ArcFaceAutoConfiguration;
 import com.itboyst.face.enums.ErrorCodeEnum;
 import com.itboyst.face.rpc.BusinessException;
 import lombok.extern.slf4j.Slf4j;
@@ -13,18 +14,16 @@ import org.apache.commons.pool2.impl.DefaultPooledObject;
 @Slf4j
 public class FaceEngineFactory extends BasePooledObjectFactory<FaceEngine> {
 
-    private String libPath;
     private String appId;
     private String sdkKey;
     private String activeKey;
     private EngineConfiguration engineConfiguration;
 
 
-    public FaceEngineFactory(String libPath, String appId, String sdkKey, String activeKey, EngineConfiguration engineConfiguration) {
+    public FaceEngineFactory( String appId, String sdkKey, String activeKey, EngineConfiguration engineConfiguration) {
         this.appId = appId;
         this.sdkKey = sdkKey;
         this.activeKey = activeKey;
-        this.libPath = libPath;
         this.engineConfiguration = engineConfiguration;
     }
 
@@ -33,7 +32,7 @@ public class FaceEngineFactory extends BasePooledObjectFactory<FaceEngine> {
     public FaceEngine create() {
 
 
-        FaceEngine faceEngine = new FaceEngine(libPath);
+        FaceEngine faceEngine = new FaceEngine(ArcFaceAutoConfiguration.CACHE_LIB_FOLDER);
         int activeCode = faceEngine.activeOnline(appId, sdkKey);
         if (activeCode != ErrorInfo.MOK.getValue() && activeCode != ErrorInfo.MERR_ASF_ALREADY_ACTIVATED.getValue()) {
             log.error("引擎激活失败" + activeCode);
