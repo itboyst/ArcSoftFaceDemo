@@ -2,6 +2,7 @@ package com.itboyst.face.service;
 
 
 import com.arcsoft.face.FaceInfo;
+import com.arcsoft.face.enums.ExtractType;
 import com.arcsoft.face.toolkit.ImageInfo;
 import com.itboyst.face.entity.UserCompareInfo;
 import com.itboyst.face.entity.ProcessInfo;
@@ -15,7 +16,7 @@ public interface FaceEngineService {
 
     Float compareFace(ImageInfo imageInfo1,ImageInfo imageInfo2) ;
 
-    byte[] extractFaceFeature(ImageInfo imageInfo,FaceInfo faceInfo);
+    byte[] extractFaceFeature(ImageInfo imageInfo, FaceInfo faceInfo, ExtractType extractType);
 
     List<UserCompareInfo> faceRecognition(byte[] faceFeature, List<UserRamCache.UserInfo> userInfoList, float passRate) ;
 

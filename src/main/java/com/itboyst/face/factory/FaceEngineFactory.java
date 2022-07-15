@@ -33,7 +33,7 @@ public class FaceEngineFactory extends BasePooledObjectFactory<FaceEngine> {
 
 
         FaceEngine faceEngine = new FaceEngine(ArcFaceAutoConfiguration.CACHE_LIB_FOLDER);
-        int activeCode = faceEngine.activeOnline(appId, sdkKey);
+        int activeCode = faceEngine.activeOnline(appId, sdkKey,activeKey);
         if (activeCode != ErrorInfo.MOK.getValue() && activeCode != ErrorInfo.MERR_ASF_ALREADY_ACTIVATED.getValue()) {
             log.error("引擎激活失败" + activeCode);
             throw new BusinessException(ErrorCodeEnum.FAIL, "引擎激活失败" + activeCode);

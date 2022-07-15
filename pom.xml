@@ -86,9 +86,9 @@
         <dependency>
             <groupId>com.arcsoft.face</groupId>
             <artifactId>arcsoft-sdk-face</artifactId>
-            <version>3.0.0.0</version>
+            <version>4.1.1.0</version>
             <scope>system</scope>
-            <systemPath>${basedir}/libs/arcsoft-sdk-face-3.0.0.0.jar</systemPath>
+            <systemPath>${basedir}/libs/arcsoft-sdk-face-4.1.1.0.jar</systemPath>
         </dependency>
 
 

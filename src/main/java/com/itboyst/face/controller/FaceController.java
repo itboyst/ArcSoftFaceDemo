@@ -2,6 +2,7 @@ package com.itboyst.face.controller;
 
 import cn.hutool.core.collection.CollectionUtil;
 import com.arcsoft.face.FaceInfo;
+import com.arcsoft.face.enums.ExtractType;
 import com.arcsoft.face.toolkit.ImageFactory;
 import com.arcsoft.face.toolkit.ImageInfo;
 import com.google.common.collect.Lists;
@@ -47,7 +48,7 @@ public class FaceController {
             ImageInfo rgbData = ImageFactory.getRGBData(inputStream);
             List<FaceInfo> faceInfoList = faceEngineService.detectFaces(rgbData);
             if (CollectionUtil.isNotEmpty(faceInfoList)) {
-                byte[] feature = faceEngineService.extractFaceFeature(rgbData, faceInfoList.get(0));
+                byte[] feature = faceEngineService.extractFaceFeature(rgbData, faceInfoList.get(0), ExtractType.REGISTER);
                 UserRamCache.UserInfo userInfo = new UserCompareInfo();
                 userInfo.setFaceId(f);
                 userInfo.setName(fileMap.get(f));
@@ -77,7 +78,7 @@ public class FaceController {
             for (FaceInfo faceInfo : faceInfoList) {
                 FaceRecognitionResDTO faceRecognitionResDTO = new FaceRecognitionResDTO();
                 faceRecognitionResDTO.setRect(faceInfo.getRect());
-                byte[] feature = faceEngineService.extractFaceFeature(rgbData, faceInfo);
+                byte[] feature = faceEngineService.extractFaceFeature(rgbData, faceInfo,ExtractType.REGISTER);
                 if (feature != null) {
                     UserRamCache.UserInfo userInfo = new UserCompareInfo();
                     userInfo.setFaceId(faceAddReqDTO.getName());
@@ -126,7 +127,7 @@ public class FaceController {
             for (FaceInfo faceInfo : faceInfoList) {
                 FaceRecognitionResDTO faceRecognitionResDTO = new FaceRecognitionResDTO();
                 faceRecognitionResDTO.setRect(faceInfo.getRect());
-                byte[] feature = faceEngineService.extractFaceFeature(rgbData, faceInfo);
+                byte[] feature = faceEngineService.extractFaceFeature(rgbData, faceInfo,ExtractType.RECOGNIZE);
                 if (feature != null) {
                     List<UserCompareInfo> userCompareInfos = faceEngineService.faceRecognition(feature, UserRamCache.getUserList(), 0.8f);
                     if (CollectionUtil.isNotEmpty(userCompareInfos)) {

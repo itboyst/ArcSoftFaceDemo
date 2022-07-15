@@ -31,9 +31,9 @@ public class FacePreview {
 
     private FaceRecognize faceRecognize;
 
-    public FacePreview( String appId, String sdkKey) {
+    public FacePreview( String appId, String sdkKey,String activeKey) {
         this.faceRecognize = new FaceRecognize();
-        faceRecognize.initEngine(appId, sdkKey);
+        faceRecognize.initEngine(appId, sdkKey,activeKey);
         List<UserRamCache.UserInfo> userList = UserRamCache.getUserList();
         Map<String, byte[]> face = userList.stream().collect(Collectors.toMap(UserRamCache.UserInfo::getName, UserRamCache.UserInfo::getFaceFeature));
         faceRecognize.registerFace(face);
@@ -56,7 +56,7 @@ public class FacePreview {
         ImageInfo imageInfo = new ImageInfo();
         imageInfo.setWidth(iplImage.width());
         imageInfo.setHeight(iplImage.height());
-        imageInfo.setImageFormat(ImageFormat.CP_PAF_BGR24);
+        imageInfo.setImageFormat(ImageFormat.CP_PAF_RGB24);
         byte[] imageData = new byte[iplImage.imageSize()];
         iplImage.imageData().get(imageData);
         imageInfo.setImageData(imageData);

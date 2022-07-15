@@ -3,6 +3,7 @@ package com.itboyst.face.service.impl;
 import cn.hutool.core.collection.CollectionUtil;
 import com.arcsoft.face.enums.DetectMode;
 import com.arcsoft.face.enums.DetectOrient;
+import com.arcsoft.face.enums.ExtractType;
 import com.arcsoft.face.toolkit.ImageInfo;
 import com.itboyst.face.entity.UserCompareInfo;
 import com.itboyst.face.entity.ProcessInfo;
@@ -39,6 +40,9 @@ public class FaceEngineServiceImpl implements FaceEngineService {
     @Value("${config.arcface-sdk.sdk-key}")
     public String sdkKey;
 
+    @Value("${config.arcface-sdk.active-key}")
+    public String activeKey;
+
     @Value("${config.arcface-sdk.detect-pool-size}")
     public Integer detectPooSize;
 
@@ -72,7 +76,7 @@ public class FaceEngineServiceImpl implements FaceEngineService {
         detectCfg.setFunctionConfiguration(detectFunctionCfg);
         detectCfg.setDetectMode(DetectMode.ASF_DETECT_MODE_IMAGE);//图片检测模式，如果是连续帧的视频流图片，那么改成VIDEO模式
         detectCfg.setDetectFaceOrientPriority(DetectOrient.ASF_OP_0_ONLY);//人脸旋转角度
-        faceEngineGeneralPool = new GenericObjectPool(new FaceEngineFactory(appId, sdkKey, null,detectCfg), detectPoolConfig);//底层库算法对象池
+        faceEngineGeneralPool = new GenericObjectPool(new FaceEngineFactory(appId, sdkKey, activeKey, detectCfg), detectPoolConfig);//底层库算法对象池
 
 
         //初始化特征比较线程池
@@ -87,7 +91,7 @@ public class FaceEngineServiceImpl implements FaceEngineService {
         compareCfg.setFunctionConfiguration(compareFunctionCfg);
         compareCfg.setDetectMode(DetectMode.ASF_DETECT_MODE_IMAGE);//图片检测模式，如果是连续帧的视频流图片，那么改成VIDEO模式
         compareCfg.setDetectFaceOrientPriority(DetectOrient.ASF_OP_0_ONLY);//人脸旋转角度
-        faceEngineComparePool = new GenericObjectPool(new FaceEngineFactory(appId, sdkKey, null,compareCfg), comparePoolConfig);//底层库算法对象池
+        faceEngineComparePool = new GenericObjectPool(new FaceEngineFactory(appId, sdkKey, activeKey, compareCfg), comparePoolConfig);//底层库算法对象池
         compareExecutorService = Executors.newFixedThreadPool(comparePooSize);
     }
 
@@ -138,8 +142,8 @@ public class FaceEngineServiceImpl implements FaceEngineService {
             throw new BusinessException(ErrorCodeEnum.FAIL, "照片2未检测到人脸");
         }
 
-        byte[] feature1 = extractFaceFeature(imageInfo1, faceInfoList1.get(0));
-        byte[] feature2 = extractFaceFeature(imageInfo2, faceInfoList2.get(0));
+        byte[] feature1 = extractFaceFeature(imageInfo1, faceInfoList1.get(0),ExtractType.REGISTER);
+        byte[] feature2 = extractFaceFeature(imageInfo2, faceInfoList2.get(0),ExtractType.RECOGNIZE);
 
         FaceEngine faceEngine = null;
         try {
@@ -181,7 +185,7 @@ public class FaceEngineServiceImpl implements FaceEngineService {
      * @return
      */
     @Override
-    public byte[] extractFaceFeature(ImageInfo imageInfo, FaceInfo faceInfo) {
+    public byte[] extractFaceFeature(ImageInfo imageInfo, FaceInfo faceInfo,ExtractType extractType) {
 
         FaceEngine faceEngine = null;
         try {
@@ -192,7 +196,7 @@ public class FaceEngineServiceImpl implements FaceEngineService {
 
             FaceFeature faceFeature = new FaceFeature();
             //提取人脸特征
-            int errorCode = faceEngine.extractFaceFeature(imageInfo.getImageData(), imageInfo.getWidth(), imageInfo.getHeight(), imageInfo.getImageFormat(), faceInfo, faceFeature);
+            int errorCode = faceEngine.extractFaceFeature(imageInfo, faceInfo, extractType, 0, faceFeature);
             if (errorCode == 0) {
                 return faceFeature.getFeatureData();
             } else {
