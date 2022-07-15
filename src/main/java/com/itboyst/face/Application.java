@@ -1,6 +1,7 @@
 package com.itboyst.face;
 
 
+import com.alibaba.fastjson.parser.ParserConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.bytedeco.javacpp.Loader;
 import org.bytedeco.opencv.global.opencv_imgproc;
@@ -14,6 +15,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Application {
 
     public static void main(String[] args) {
+        ParserConfig.getGlobalInstance().setSafeMode(true);
         SpringApplication.run(Application.class, args);
         log.info("springboot run success ");
 
