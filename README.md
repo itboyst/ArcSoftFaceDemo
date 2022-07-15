@@ -1,5 +1,9 @@
 ## 开发环境准备：
 
+### 代码：
+* 免费版v3.0使用master分支
+* 增值版v4.1使用arcface_pro分支
+
 ### 开发使用到的软件和工具：
 
 * Jdk8、libarcsoft_face.dll(so)、libarcsoft_face_engine.dll(so)、libarcsoft_face_engine_jni.dll(so)、idea
