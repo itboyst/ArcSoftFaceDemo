@@ -10,6 +10,7 @@ import com.itboyst.face.config.ArcFaceAutoConfiguration;
 import com.itboyst.face.factory.FaceEngineFactory;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 
@@ -52,11 +53,17 @@ public class FaceRecognize {
     /**
      * 初始化引擎
      */
-    public void initEngine( String appId, String sdkKey, String activeKey) {
+    public void initEngine(String appId, String sdkKey, String activeKey, String activeFile) {
 
         //引擎配置
         ftEngine = new FaceEngine(ArcFaceAutoConfiguration.CACHE_LIB_FOLDER);
-        int activeCode = ftEngine.activeOnline(appId, sdkKey,activeKey);
+        int activeCode;
+        if (StringUtils.isNotEmpty(activeFile)) {
+            activeCode = ftEngine.activeOffline(activeFile);
+        } else {
+            activeCode = ftEngine.activeOnline(appId, sdkKey, activeKey);
+        }
+
         EngineConfiguration ftEngineCfg = new EngineConfiguration();
         ftEngineCfg.setDetectMode(DetectMode.ASF_DETECT_MODE_VIDEO);
         ftEngineCfg.setFunctionConfiguration(FunctionConfiguration.builder().supportFaceDetect(true).build());
@@ -78,7 +85,7 @@ public class FaceRecognize {
         poolConfig.setLifo(false);
         EngineConfiguration frEngineCfg = new EngineConfiguration();
         frEngineCfg.setFunctionConfiguration(FunctionConfiguration.builder().supportFaceRecognition(true).build());
-        frEnginePool = new GenericObjectPool(new FaceEngineFactory( appId, sdkKey, activeKey, frEngineCfg), poolConfig);//底层库算法对象池
+        frEnginePool = new GenericObjectPool(new FaceEngineFactory(appId, sdkKey, activeKey,activeFile, frEngineCfg), poolConfig);//底层库算法对象池
 
 
         if (!(activeCode == ErrorInfo.MOK.getValue() || activeCode == ErrorInfo.MERR_ASF_ALREADY_ACTIVATED.getValue())) {
@@ -116,7 +123,7 @@ public class FaceRecognize {
 
                     if (code == 0 && faceInfoList.size() > 0) {
                         FaceFeature faceFeature = new FaceFeature();
-                        int resCode = regEngine.extractFaceFeature(imageInfo, faceInfoList.get(0), ExtractType.REGISTER,0, faceFeature);
+                        int resCode = regEngine.extractFaceFeature(imageInfo, faceInfoList.get(0), ExtractType.REGISTER, 0, faceFeature);
                         if (resCode == 0) {
                             int lastIndexOf = file1.getName().lastIndexOf(".");
                             String name = file1.getName().substring(0, file1.getName().length() - lastIndexOf - 1);
@@ -245,7 +252,7 @@ public class FaceRecognize {
                 frEngine = frEnginePool.borrowObject();
                 if (frEngine != null) {
                     FaceFeature faceFeature = new FaceFeature();
-                    int resCode = frEngine.extractFaceFeature(imageInfo,faceInfo,ExtractType.RECOGNIZE,0, faceFeature);
+                    int resCode = frEngine.extractFaceFeature(imageInfo, faceInfo, ExtractType.RECOGNIZE, 0, faceFeature);
                     if (resCode == 0) {
 
                         float score = 0.0F;

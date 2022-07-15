@@ -27,10 +27,13 @@ public class VideoPlayerService {
     @Value("${config.arcface-sdk.active-key}")
     public String activeKey;
 
+    @Value("${config.arcface-sdk.active-file}")
+    public String activeFile;
+
     public void servletStreamPlayer(FrameGrabber grabber, ServletOutputStream servletOutputStream) throws Exception {
 
         //启动人脸处理引擎
-        FacePreview faceProcessEngine = new FacePreview(appId, sdkKey,activeKey);
+        FacePreview faceProcessEngine = new FacePreview(appId, sdkKey,activeKey,activeFile);
 
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         OpenCVFrameConverter.ToIplImage converter = new OpenCVFrameConverter.ToIplImage();

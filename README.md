@@ -14,9 +14,14 @@
 * 初始化项目
 * 使用idea启动项目
     * 修改配置文件src\main\resources\application.properties
+    * 在线激活:
         * 填写人脸识别id：config.arcface-sdk.app-id
         * 填写人脸识别key：config.arcface-sdk.sdk-key
-    * 替换src\main\resources\libs\3.0下面的库文件
+        * 填写人脸识别activeKey：config.arcface-sdk.active-key
+    * 离线激活:
+        * 填写人脸识别activeKey：config.arcface-sdk.active-file
+        * 注：填写了离线激活信息，在线激活不生效
+    * 替换src\main\resources\libs\4.0下面的库文件
 
 
 * 启动项目

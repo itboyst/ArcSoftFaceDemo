@@ -7,6 +7,7 @@ import com.itboyst.face.config.ArcFaceAutoConfiguration;
 import com.itboyst.face.enums.ErrorCodeEnum;
 import com.itboyst.face.rpc.BusinessException;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
@@ -17,13 +18,15 @@ public class FaceEngineFactory extends BasePooledObjectFactory<FaceEngine> {
     private String appId;
     private String sdkKey;
     private String activeKey;
+    private String activeFile;
     private EngineConfiguration engineConfiguration;
 
 
-    public FaceEngineFactory( String appId, String sdkKey, String activeKey, EngineConfiguration engineConfiguration) {
+    public FaceEngineFactory( String appId, String sdkKey, String activeKey,String activeFile, EngineConfiguration engineConfiguration) {
         this.appId = appId;
         this.sdkKey = sdkKey;
         this.activeKey = activeKey;
+        this.activeFile=activeFile;
         this.engineConfiguration = engineConfiguration;
     }
 
@@ -33,7 +36,12 @@ public class FaceEngineFactory extends BasePooledObjectFactory<FaceEngine> {
 
 
         FaceEngine faceEngine = new FaceEngine(ArcFaceAutoConfiguration.CACHE_LIB_FOLDER);
-        int activeCode = faceEngine.activeOnline(appId, sdkKey,activeKey);
+        int activeCode;
+        if (StringUtils.isNotEmpty(activeFile)) {
+            activeCode = faceEngine.activeOffline(activeFile);
+        } else {
+            activeCode = faceEngine.activeOnline(appId, sdkKey, activeKey);
+        }
         if (activeCode != ErrorInfo.MOK.getValue() && activeCode != ErrorInfo.MERR_ASF_ALREADY_ACTIVATED.getValue()) {
             log.error("引擎激活失败" + activeCode);
             throw new BusinessException(ErrorCodeEnum.FAIL, "引擎激活失败" + activeCode);
