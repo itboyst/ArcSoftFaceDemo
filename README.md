@@ -21,6 +21,7 @@
         * 填写人脸识别id：config.arcface-sdk.app-id
         * 填写人脸识别key：config.arcface-sdk.sdk-key
     * 替换src\main\resources\libs\3.0下面的库文件
+    * 检查pom.xml文件的<properties>中的<javacv.platform>配置是否与当前操作系统匹配，注：如需要打包成在linux上运行，需将配置切换到 *linux-x86_64*，然后进行打包
 
 
 * 启动项目
@@ -30,6 +31,8 @@
 * 项目访问地址
     * http://127.0.0.1:8089/
 
+* 项目体验访问地址
+    * http://itboyst.vicp.cc:8089/
 
 * 后端使用springboot+javacv，前端使用vue3，支持人脸检测，人脸比对，人脸识别，本地视频识别，rtsp视频流识别等，代码易读精简
 
