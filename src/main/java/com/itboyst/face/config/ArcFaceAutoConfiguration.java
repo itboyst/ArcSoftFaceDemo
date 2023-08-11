@@ -109,7 +109,7 @@ public class ArcFaceAutoConfiguration implements InitializingBean, DisposableBea
             int faceLength = inputStream.available();
             File facePath = new File(CACHE_LIB_FOLDER + lib + suffix);
             if (facePath.exists()) {
-                if (facePath.length() == faceLength) {
+                if (facePath.length() == faceLength && !"libarcsoft_face_engine".equals(lib)) {
                     continue;
                 }
                 facePath.delete();
