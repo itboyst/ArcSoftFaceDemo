@@ -77,7 +77,7 @@ public class VideoPlayerService {
         for (; ; ) {
             Frame frame = grabber.grab();
             if (frame == null) {
-                continue;
+                break;
             }
             IplImage iplImage = converter.convert(frame);//抓取一帧视频并将其转换为图像，至于用这个图像用来做什么？加水印，人脸识别等等自行添加
             if (iplImage != null) {
