@@ -32,7 +32,7 @@
     * http://127.0.0.1:8089/
 
 * 项目体验访问地址
-    * http://itboyst.vicp.cc:8089/
+    * http://face.v6-iot.cn:8089/
 
 * 后端使用springboot+javacv，前端使用vue3，支持人脸检测，人脸比对，人脸识别，本地视频识别，rtsp视频流识别等，代码易读精简
 
