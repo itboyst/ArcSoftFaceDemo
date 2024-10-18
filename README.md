@@ -3,6 +3,7 @@
 ### 代码：
 * 免费版v3.0使用master分支
 * 增值版v4.1使用arcface_pro分支
+* Linux PRO v1.0使用arcface_linux_pro分支
 
 ### 开发使用到的软件和工具：
 
